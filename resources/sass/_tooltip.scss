@@ -1,0 +1,10 @@
+$tooltip-info-bg-color: #00ffff;
+
+.tooltip {
+  &-info {
+    background-color: $tooltip-info-bg-color;
+    padding: .2rem;
+    position: absolute;
+    visibility: hidden;
+  }
+}

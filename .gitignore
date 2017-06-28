@@ -1,0 +1,7 @@
+.idea/
+.build
+/*.log
+node_modules/
+dist
+.DS_Store
+/env.js

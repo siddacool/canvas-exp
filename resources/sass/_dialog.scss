@@ -1,0 +1,10 @@
+$dialog-expanded-bg-color: #fff;
+
+.dialog {
+  &-expanded {
+    background-color: $dialog-expanded-bg-color;
+    display: none;
+    padding: 1rem;
+    position: absolute;
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "extends": "airbnb",
+  "plugins": [
+    "react",
+    "jsx-a11y",
+    "import"
+  ],
+  "rules": {
+    "no-console": "off",
+    "no-underscore-dangle": "off",
+    "prefer-arrow-callback": ["error", { "allowNamedFunctions": true }],
+    "class-methods-use-this": ["error", { "exceptMethods": ["item"] }],
+    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+    "class-methods-use-this": ["error", {
+      "exceptMethods": [
+        "render",
+        "getDefaultProps",
+        "getPropTypes",
+        "generateId",
+        "componentWillRemove",
+        "getComponentContainer",
+        "hideLoader"
+      ]
+    }]
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  }
+}
