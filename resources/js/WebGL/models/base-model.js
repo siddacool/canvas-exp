@@ -6,7 +6,8 @@ const THREEx = {};
 initializeDomEvents(THREE, THREEx);
 
 export default class {
-  constructor(name, model, pivot, meshReg) {
+  constructor(id, name, model, pivot, meshReg) {
+    this.id = id;
     this.name = name;
     this.model = model;
     this.color = 0x42dff4;
@@ -16,6 +17,7 @@ export default class {
     this.pivot = pivot;
     this.meshReg = meshReg;
     this.center = false;
+    this.description = 'No Description';
   }
 
   render() {
@@ -39,7 +41,9 @@ export default class {
     if (this.posz !== undefined) {
       mesh.position.z = this.posz;
     }
+    mesh.userData.id = this.id;
     mesh.userData.name = this.name;
+    mesh.userData.description = this.description;
     mesh.userData.color = this.color;
     this.pivot.add(mesh);
     this.meshReg.push(mesh);

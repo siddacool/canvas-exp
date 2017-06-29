@@ -1,23 +1,29 @@
 export default class {
   constructor(msg = 'dialog') {
     this.msg = msg;
+    this.selfGet = 'dialog-expanded';
+    this.parentDom = 'dialog-holder';
   }
 
   render() {
     return `
       <div class="dialog-expanded" id="dialog-expanded">
-        <p class="msg">
-          ${this.msg}
-        </p>
+        <div class="padding-box">
+          <p class="msg">
+            ${this.msg}
+          </p>
+        </div>
       </div>
     `;
   }
 
-  show(msg) {
-    const dialogExpanded = document.getElementById('dialog-expanded');
-    const p = dialogExpanded.querySelector('.msg');
+  show() {
+    const dialogHolder = document.getElementById(this.parentDom);
+    dialogHolder.innerHTML = this.render();
+    dialogHolder.style.display = 'block';
+  }
 
-    dialogExpanded.style.display = 'block';
-    p.textContent = msg;
+  close() {
+    document.getElementById(this.parentDom).style.display = '';
   }
 }

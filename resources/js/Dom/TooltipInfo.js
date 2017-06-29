@@ -2,16 +2,25 @@ export default class {
   constructor(msg = 'tooltip') {
     this.msg = msg;
     this.selfGet = 'tooltip-info';
+    this.parentDom = 'tooltip-holder';
   }
 
   render() {
     return `
       <div class="tooltip-info" id="tooltip-info">
-        <p class="msg">
-          ${this.msg}
-        </p>
+        <div class="margin-box">
+          <div class="padding-box">
+            <p class="msg">
+              ${this.msg}
+            </p>
+          </div>
+        </div>
       </div>
     `;
+  }
+
+  show() {
+    document.getElementById(this.parentDom).innerHTML = this.render();
   }
 
   follow(x, y) {
