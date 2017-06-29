@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import TooltipInfo from '../Dom/TooltipInfo';
-import Monkey from './models/Monkey';
-import Trigo from './models/Trigo';
+import modelView from './model-view';
+import DialogExpanded from '../Dom/DialogExpanded';
 
 const initializeDomEvents = require('threex-domevents');
 
@@ -9,17 +9,25 @@ const THREEx = {};
 initializeDomEvents(THREE, THREEx);
 
 function webGLInit() {
+  const cameraDistance = () => {
+    let send = '';
+    if (window.innerWidth < 600) {
+      send = 70;
+    } else {
+      send = 40;
+    }
+    return send;
+  };
   const renderer = new THREE.WebGLRenderer({
     canvas: document.getElementById('my-canvas'),
     antialias: true,
   });
-
   renderer.setClearColor(0x00ff00);
   renderer.setSize(window.innerWidth, window.innerHeight);
 
 
   const cameraWindow = window.innerWidth / window.innerHeight;
-  const camera = new THREE.PerspectiveCamera(35, cameraWindow, 0.5, 3000);
+  const camera = new THREE.PerspectiveCamera(cameraDistance(), cameraWindow, 0.5, 3000);
   const scene = new THREE.Scene();
   const domEvents = new THREEx.DomEvents(camera, renderer.domElement);
   const showCoords = (event) => {
@@ -43,21 +51,30 @@ function webGLInit() {
 
   const showTooltip = (object) => {
     const tooltipInfo = new TooltipInfo(object.userData.name);
+    const dialogExpanded = new DialogExpanded(object.userData.description);
     domEvents.addEventListener(object, 'mouseover', () => {
-      document.getElementById('tooltip-holder').innerHTML = tooltipInfo.render();
-      object.material.color.setHex(0xffffff);
+      tooltipInfo.show();
     }, false);
 
     domEvents.addEventListener(object, 'mousemove', () => {
       const mousePos = showCoords(event);
       if (!isDragging) {
-        tooltipInfo.follow(mousePos.x + 8, mousePos.y - 30);
+        tooltipInfo.follow(mousePos.x, mousePos.y);
+        object.material.color.setHex(0xffffff);
+      } else {
+        object.material.color.setHex(object.userData.color);
       }
     }, false);
 
     domEvents.addEventListener(object, 'mouseout', () => {
       tooltipInfo.clear();
       object.material.color.setHex(object.userData.color);
+    }, false);
+
+    domEvents.addEventListener(object, 'dblclick', () => {
+      if (!isDragging) {
+        dialogExpanded.show();
+      }
     }, false);
   };
 
@@ -79,6 +96,7 @@ function webGLInit() {
         const deltaX = mouse.x - event.x;
         const deltaY = mouse.y - event.y;
         pivot.rotation.y += deltaX * -0.002;
+        pivot.rotation.x += deltaY * -0.002;
       }
     }
     mouse = {
@@ -99,17 +117,27 @@ function webGLInit() {
 
   addEventListener('mousewheel', zoom);
 
+  document.getElementById('dialog-holder').addEventListener('click', (event) => {
+    if (event.target !== document.getElementById('dialog-expanded')) {
+      const dialogExpanded = new DialogExpanded();
+      dialogExpanded.close();
+    }
+  });
+
   // Call Models
-  const monkey = new Monkey(pivot, meshReg);
-  const trigo = new Trigo(pivot, meshReg);
-
-  monkey.render();
-  trigo.render();
-
+  modelView(pivot, meshReg);
 
   meshReg.forEach((mesh) => {
     showTooltip(mesh);
   });
+
+  const giveMesh = (meshId) => {
+    for (let i = 0; i < meshReg.length; i++) {
+      if (meshReg[i].userData.id === meshId) {
+        return meshReg[i];
+      }
+    }
+  };
 
   // render all
   function render() {
@@ -118,6 +146,6 @@ function webGLInit() {
   }
 
   requestAnimationFrame(render);
-};
+}
 
 export default webGLInit;
