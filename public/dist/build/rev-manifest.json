@@ -1,0 +1,6 @@
+{
+  "app": {
+    "js": "public/dist/build/app.js",
+    "css": "public/dist/build/app.css"
+  }
+}

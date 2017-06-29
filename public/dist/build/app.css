@@ -1,0 +1,109 @@
+body {
+  border: 0;
+  color: #000;
+  font-family: "Nunito Sans", sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  outline: none;
+  padding: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+button {
+  background: none;
+  border: 0;
+  font-style: normal;
+  font-weight: normal;
+  margin: 0;
+  outline: 0;
+  padding: 0;
+  text-decoration: none;
+}
+
+a {
+  color: inherit;
+  margin: 0;
+  text-decoration: none;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+}
+
+:focus {
+  outline: 0;
+}
+
+a svg,
+button svg,
+label svg {
+  pointer-events: none;
+}
+
+.icon {
+  fill: #000;
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.svg-holder {
+  display: none;
+}
+
+.wrapper {
+  display: -webkit-flex;
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+.tooltip-info {
+  position: absolute;
+  visibility: hidden;
+}
+
+.tooltip-info .margin-box {
+  margin-left: 11px;
+  margin-top: -30px;
+}
+
+.tooltip-info .padding-box {
+  background-color: #00ffff;
+  padding: .2rem;
+}
+
+.dialog-holder {
+  background-color: rgba(88, 119, 232, 0.86);
+  display: none;
+  height: 100vh;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100vw;
+}
+
+.dialog-expanded {
+  background-color: #fff;
+  height: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: calc(50vh - 300px);
+  max-width: 900px;
+  padding: 2rem;
+  overflow: auto;
+}
