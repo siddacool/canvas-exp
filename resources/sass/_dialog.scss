@@ -2,10 +2,11 @@ $dialog-expanded-bg-color: #fff;
 
 .dialog {
   &-holder {
-    background-color: rgba(88, 119, 232, .86);
+    background-color: rgba(105, 114, 123, .86);
     display: none;
     height: 100vh;
     left: 0;
+    padding: 0 2rem;
     position: absolute;
     top: 0;
     width: 100vw;
@@ -17,6 +18,7 @@ $dialog-expanded-bg-color: #fff;
     @include desktop {
       background-color: transparent;
       height: initial;
+      padding: 0;
       position: initial;
       width: initial;
     }
@@ -47,6 +49,7 @@ $dialog-expanded-bg-color: #fff;
 
     .padding-box {
       height: 100%;
+      margin-bottom: 2rem;
       overflow: auto;
     }
 

@@ -5,6 +5,7 @@ const path = require('path');
 const cheerio = require('gulp-cheerio');
 const svgstore = require('gulp-svgstore');
 const svgmin = require('gulp-svgmin');
+const imagemin = require('gulp-imagemin');
 const appPath = require('./dist/public/dist/build/rev-manifest.json');
 
 gulp.task('html-templates', () => {
@@ -24,6 +25,12 @@ gulp.task('favicon', () => {
   return gulp
   .src('./resources/favicon/*.**')
   .pipe(gulp.dest('./dist/public/dist/favicon/'));
+});
+
+gulp.task('image-load', () => {
+  gulp.src('./resources/images/*.**')
+  .pipe(imagemin())
+  .pipe(gulp.dest('./dist/public/dist/images/'));
 });
 
 gulp.task('svg-make', () => {
