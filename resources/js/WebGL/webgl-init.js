@@ -58,7 +58,15 @@ function webGLInit() {
   const pivot = new THREE.Group();
   const meshReg = [];
   scene.add(pivot);
-  pivot.position.z = -10;
+  pivot.position.z = -13;
+
+  const spheregeometry = new THREE.SphereBufferGeometry(20, 20, 20);
+  const spherematerial = new THREE.MeshPhongMaterial();
+  const sphere = new THREE.Mesh(spheregeometry, spherematerial);
+  spherematerial.map = THREE.ImageUtils.loadTexture('./public/dist/images/pano.jpg');
+  sphere.material.side = THREE.BackSide;
+
+  pivot.add(sphere);
 
   const zoom = (event) => {
     if (event.wheelDelta / 120 > 0) {
@@ -104,10 +112,13 @@ function webGLInit() {
     }, false);
 
     domEvents.addEventListener(object, 'dblclick', () => {
+      const isDialogVisible = document.getElementById('dialog-holder').classList.contains('show');
       if (!isDragging) {
+        if (!isDialogVisible) {
+          resizeCanvas(900, window.innerHeight);
+          camera.position.z = 10;
+        }
         dialogExpanded.show();
-        resizeCanvas(900, window.innerHeight);
-        camera.position.z = 10;
       }
     }, false);
   };

@@ -1,4 +1,5 @@
 import * as Model from './model.json';
+import Description from './description.html';
 import BaseModel from '../../base-model';
 
 const defaultProps = {
@@ -17,5 +18,6 @@ export default class extends BaseModel {
     this.posx = props.pos.x;
     this.posy = props.pos.y;
     this.posz = props.pos.z;
+    this.description = Description;
   }
 }
