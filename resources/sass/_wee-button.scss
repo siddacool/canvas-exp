@@ -1,0 +1,168 @@
+$wee-button-bg-color: rgba(9, 30, 66, .04);
+$wee-button-color: #505f79;
+$wee-button-hover-bg-color: rgba(9, 30, 66, .07);
+$wee-button-active-bg-color: $aui-b50;
+$wee-button-active-color: $aui-b400;
+
+$wee-button-primary-bg-color: $aui-b400;
+$wee-button-primary-color: #fff;
+$wee-button-primary-hover-bg-color: $aui-b300;
+$wee-button-primary-active-bg-color: $aui-b500;
+
+$wee-button-safe-bg-color: $aui-g400;
+$wee-button-safe-hover-bg-color: $aui-g300;
+$wee-button-safe-active-bg-color: $aui-g500;
+
+$wee-button-warning-bg-color: $aui-y400;
+$wee-button-warning-hover-bg-color: $aui-y300;
+$wee-button-warning-active-bg-color: $aui-y500;
+
+$wee-button-danger-bg-color: $aui-r400;
+$wee-button-danger-hover-bg-color: $aui-r300;
+$wee-button-danger-active-bg-color: $aui-r500;
+
+$wee-button-disable-color: $aui-n70;
+
+$wee-button-link-color: $aui-b400;
+$wee-button-link-hover-color: $aui-b300;
+$wee-button-link-active-color: $aui-b500;
+
+$wee-button-subtle-link-color: $aui-n100;
+
+.wee-button {
+  border-radius: 3.01px;
+  cursor: pointer;
+  display: inline-block;
+  font-family: inherit;
+  font-size: px(14);
+  font-variant: normal;
+  font-weight: 400;
+  margin: 0;
+  padding: 6px 11px;
+  text-decoration: none;
+  text-decoration-skip: ink;
+  vertical-align: baseline;
+  white-space: nowrap;
+
+  &--large {
+    font-size: px(17);
+    padding: 7px 14px;
+  }
+
+  &--small {
+    font-size: px(13);
+    padding: 5px 9px;
+  }
+
+  &--default {
+    background: $wee-button-bg-color;
+    color: $wee-button-color;
+
+    &:hover {
+      background: $wee-button-hover-bg-color;
+    }
+
+    &:active {
+      background: $wee-button-active-bg-color;
+      color: $wee-button-active-color;
+    }
+  }
+
+  &--primary {
+    background: $wee-button-primary-bg-color;
+    color: $wee-button-primary-color;
+
+    &:hover {
+      background: $wee-button-primary-hover-bg-color;
+    }
+
+    &:active {
+      background: $wee-button-primary-active-bg-color;
+    }
+  }
+
+  &--safe {
+    background: $wee-button-safe-bg-color;
+    color: $wee-button-primary-color;
+
+    &:hover {
+      background: $wee-button-safe-hover-bg-color;
+    }
+
+    &:active {
+      background: $wee-button-safe-active-bg-color;
+    }
+  }
+
+  &--warning {
+    background: $wee-button-warning-bg-color;
+    color: $wee-button-primary-color;
+
+    &:hover {
+      background: $wee-button-warning-hover-bg-color;
+    }
+
+    &:active {
+      background: $wee-button-warning-active-bg-color;
+    }
+  }
+
+  &--danger {
+    background: $wee-button-danger-bg-color;
+    color: $wee-button-primary-color;
+
+    &:hover {
+      background: $wee-button-danger-hover-bg-color;
+    }
+
+    &:active {
+      background: $wee-button-danger-active-bg-color;
+    }
+  }
+
+  &--disable {
+    background: $wee-button-bg-color;
+    color: $wee-button-disable-color;
+  }
+
+  &--link {
+    color: $wee-button-link-color;
+
+    &:hover {
+      color: $wee-button-link-hover-color;
+      text-decoration: underline;
+    }
+
+    &:active {
+      color: $wee-button-link-active-color;
+      text-decoration: none;
+    }
+  }
+
+  &--subtle {
+    color: $wee-button-color;
+
+    &:hover {
+      background: $wee-button-hover-bg-color;
+    }
+
+    &:active {
+      background: $wee-button-active-bg-color;
+      color: $wee-button-active-color;
+    }
+  }
+
+  &--subtle-link {
+    color: $wee-button-subtle-link-color;
+
+    &:hover {
+      color: $wee-button-link-hover-color;
+      text-decoration: underline;
+    }
+
+    &:active {
+      color: $wee-button-link-active-color;
+      text-decoration: none;
+    }
+  }
+}

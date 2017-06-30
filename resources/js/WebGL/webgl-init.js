@@ -9,6 +9,7 @@ const THREEx = {};
 initializeDomEvents(THREE, THREEx);
 
 function webGLInit() {
+  const myCanvas = document.getElementById('my-canvas');
   const cameraDistance = () => {
     let send = '';
     if (window.innerWidth < 600) {
@@ -19,7 +20,7 @@ function webGLInit() {
     return send;
   };
   const renderer = new THREE.WebGLRenderer({
-    canvas: document.getElementById('my-canvas'),
+    canvas: myCanvas,
     antialias: true,
   });
   renderer.setClearColor(0x00ff00);
@@ -30,6 +31,11 @@ function webGLInit() {
   const camera = new THREE.PerspectiveCamera(cameraDistance(), cameraWindow, 0.5, 3000);
   const scene = new THREE.Scene();
   const domEvents = new THREEx.DomEvents(camera, renderer.domElement);
+  const resizeCanvas = (width, height) => {
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+    renderer.setSize(width, height);
+  };
   const showCoords = (event) => {
     return {
       x: event.clientX,
@@ -48,35 +54,6 @@ function webGLInit() {
     y: undefined,
   };
   let isDragging = false;
-
-  const showTooltip = (object) => {
-    const tooltipInfo = new TooltipInfo(object.userData.name);
-    const dialogExpanded = new DialogExpanded(object.userData.description);
-    domEvents.addEventListener(object, 'mouseover', () => {
-      tooltipInfo.show();
-    }, false);
-
-    domEvents.addEventListener(object, 'mousemove', () => {
-      const mousePos = showCoords(event);
-      if (!isDragging) {
-        tooltipInfo.follow(mousePos.x, mousePos.y);
-        object.material.color.setHex(0xffffff);
-      } else {
-        object.material.color.setHex(object.userData.color);
-      }
-    }, false);
-
-    domEvents.addEventListener(object, 'mouseout', () => {
-      tooltipInfo.clear();
-      object.material.color.setHex(object.userData.color);
-    }, false);
-
-    domEvents.addEventListener(object, 'dblclick', () => {
-      if (!isDragging) {
-        dialogExpanded.show();
-      }
-    }, false);
-  };
 
   const pivot = new THREE.Group();
   const meshReg = [];
@@ -104,24 +81,54 @@ function webGLInit() {
       y: event.y,
     };
   };
+  const showTooltip = (object) => {
+    const tooltipInfo = new TooltipInfo(object.userData.name);
+    const dialogExpanded = new DialogExpanded(object.userData.description);
+    domEvents.addEventListener(object, 'mouseover', () => {
+      tooltipInfo.show();
+    }, false);
 
-  addEventListener('mousedown', () => {
+    domEvents.addEventListener(object, 'mousemove', () => {
+      const mousePos = showCoords(event);
+      if (!isDragging) {
+        tooltipInfo.follow(mousePos.x, mousePos.y);
+        object.material.color.setHex(0xffffff);
+      } else {
+        object.material.color.setHex(object.userData.color);
+      }
+    }, false);
+
+    domEvents.addEventListener(object, 'mouseout', () => {
+      tooltipInfo.clear();
+      object.material.color.setHex(object.userData.color);
+    }, false);
+
+    domEvents.addEventListener(object, 'dblclick', () => {
+      if (!isDragging) {
+        dialogExpanded.show();
+        resizeCanvas(900, window.innerHeight);
+        camera.position.z = 10;
+      }
+    }, false);
+  };
+
+  myCanvas.addEventListener('mousedown', () => {
     isDragging = true;
   });
 
-  addEventListener('mousemove', drag);
+  myCanvas.addEventListener('mousemove', drag);
 
-  addEventListener('mouseup', () => {
+  myCanvas.addEventListener('mouseup', () => {
     isDragging = false;
   });
 
-  addEventListener('mousewheel', zoom);
+  myCanvas.addEventListener('mousewheel', zoom);
 
-  document.getElementById('dialog-holder').addEventListener('click', (event) => {
-    if (event.target !== document.getElementById('dialog-expanded')) {
-      const dialogExpanded = new DialogExpanded();
-      dialogExpanded.close();
-    }
+  document.getElementById('dialog-expanded-close').addEventListener('click', () => {
+    const dialogExpanded = new DialogExpanded();
+    dialogExpanded.close();
+    resizeCanvas(window.innerWidth, window.innerHeight);
+    camera.position.z = 0;
   });
 
   // Call Models

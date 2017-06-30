@@ -9,16 +9,53 @@ $dialog-expanded-bg-color: #fff;
     position: absolute;
     top: 0;
     width: 100vw;
+
+    &.show {
+      display: block;
+    }
+
+    @include desktop {
+      background-color: transparent;
+      height: initial;
+      position: initial;
+      width: initial;
+    }
   }
 
   &-expanded {
     background-color: $dialog-expanded-bg-color;
+    display: flex;
+    flex-direction: column;
     height: 600px;
     margin-left: auto;
     margin-right: auto;
     margin-top: calc(50vh - 300px);
+    max-height: initial;
     max-width: 900px;
-    padding: 2rem;
     overflow: auto;
+
+    @include desktop {
+      height: 100vh;
+      left: 0;
+      margin-left: 900px;
+      margin-top: 0;
+      max-width: initial;
+      position: fixed;
+      top: 0;
+      width: calc(100vw - 900px);
+    }
+
+    .padding-box {
+      height: 100%;
+      overflow: auto;
+    }
+
+    .button-holder {
+      text-align: right;
+
+      @include desktop {
+        text-align: initial;
+      }
+    }
   }
 }
