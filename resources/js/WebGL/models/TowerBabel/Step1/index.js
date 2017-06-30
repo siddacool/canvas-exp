@@ -1,5 +1,7 @@
 import * as Model from './model.json';
+import Description from './description.html';
 import BaseModel from '../../base-model';
+
 
 const defaultProps = {
   color: 0x42dff4,
@@ -17,6 +19,6 @@ export default class extends BaseModel {
     this.posx = props.pos.x;
     this.posy = props.pos.y;
     this.posz = props.pos.z;
-    this.description = 'The first step of babylon tower is called base';
+    this.description = Description;
   }
 }

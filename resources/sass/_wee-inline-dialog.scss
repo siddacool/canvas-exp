@@ -1,0 +1,13 @@
+$wee-inline-dialog-bg-color: #fff;
+$wee-inline-dialog-shadow-color: rgba(9, 30, 66, .31);
+
+.wee-inline-dialog {
+  background: $wee-inline-dialog-bg-color;
+  border: 1px solid $wee-inline-dialog-bg-color;
+  border-radius: 3px;
+  box-shadow: 0 4px 8px -2px $wee-inline-dialog-shadow-color, 0 0 1px $wee-inline-dialog-shadow-color;
+  max-height: 480px;
+  max-width: 496px;
+  padding: 24px;
+  z-index: 200;
+}

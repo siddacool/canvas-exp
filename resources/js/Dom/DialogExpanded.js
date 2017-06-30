@@ -5,13 +5,24 @@ export default class {
     this.parentDom = 'dialog-holder';
   }
 
+  update() {
+    return `
+      ${this.msg}
+    `;
+  }
+
   render() {
     return `
-      <div class="dialog-expanded" id="dialog-expanded">
+      <div class="wee-inline-dialog dialog-expanded" id="dialog-expanded">
         <div class="padding-box">
-          <p class="msg">
-            ${this.msg}
-          </p>
+          <div class="msg">
+            ${this.update()}
+          </div>
+        </div>
+        <div class="button-holder">
+          <a id="dialog-expanded-close" class="wee-button wee-button--primary wee-button--large dialog-expanded-close">
+            Close
+          </a>
         </div>
       </div>
     `;
@@ -19,11 +30,13 @@ export default class {
 
   show() {
     const dialogHolder = document.getElementById(this.parentDom);
-    dialogHolder.innerHTML = this.render();
-    dialogHolder.style.display = 'block';
+    const msg = document.getElementById(this.selfGet).querySelector('.msg');
+    msg.innerHTML = this.update();
+    dialogHolder.classList.add('show');
   }
 
   close() {
-    document.getElementById(this.parentDom).style.display = '';
+    const dialogHolder = document.getElementById(this.parentDom);
+    dialogHolder.classList.remove('show');
   }
 }
