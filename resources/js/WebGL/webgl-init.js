@@ -70,9 +70,9 @@ function webGLInit() {
 
   const zoom = (event) => {
     if (event.wheelDelta / 120 > 0) {
-      camera.position.z -= 0.1;
+      camera.position.z -= 0.3;
     } else {
-      camera.position.z += 0.1;
+      camera.position.z += 0.3;
     }
   };
   const drag = (event) => {
