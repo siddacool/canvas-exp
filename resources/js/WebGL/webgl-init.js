@@ -98,7 +98,7 @@ function webGLInit() {
 
     if (!isDialogVisible) {
       if (window.innerWidth >= 1280) {
-        resizeCanvas(900, window.innerHeight);
+        resizeCanvas(window.innerWidth / 2, window.innerHeight);
       }
       camera.position.z = 10;
     }
@@ -143,6 +143,15 @@ function webGLInit() {
     dialogExpanded.close();
     resizeCanvas(window.innerWidth, window.innerHeight);
     camera.position.z = 0;
+  });
+
+  addEventListener('resize', () => {
+    const isDialogVisible = document.getElementById('dialog-holder').classList.contains('show');
+    if (isDialogVisible && window.innerWidth >= 1280) {
+      resizeCanvas(window.innerWidth / 2, window.innerHeight);
+    } else {
+      resizeCanvas(window.innerWidth, window.innerHeight);
+    }
   });
 
   // Call Models

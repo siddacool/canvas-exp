@@ -39,12 +39,12 @@ $dialog-expanded-bg-color: #fff;
     @include desktopXL {
       height: 100vh;
       left: 0;
-      margin-left: 900px;
+      margin-left: 50vw;
       margin-top: 0;
       max-width: initial;
       position: fixed;
       top: 0;
-      width: calc(100vw - 900px);
+      width: 50vw;
     }
 
     .padding-box {
