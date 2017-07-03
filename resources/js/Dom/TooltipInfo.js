@@ -5,13 +5,13 @@ export default class {
     this.parentDom = 'tooltip-holder';
   }
 
-  render() {
+  render(renderMsg = this.msg) {
     return `
       <div class="tooltip-info" id="tooltip-info">
         <div class="margin-box">
           <div class="padding-box">
             <p class="msg">
-              ${this.msg}
+              ${renderMsg}
             </p>
           </div>
         </div>
@@ -19,11 +19,8 @@ export default class {
     `;
   }
 
-  show() {
-    document.getElementById(this.parentDom).innerHTML = this.render();
-  }
-
-  follow(x, y) {
+  show(renderMsg, x, y) {
+    document.getElementById(this.parentDom).innerHTML = this.render(renderMsg);
     const selfGet = document.getElementById(this.selfGet);
 
     selfGet.style.visibility = 'visible';

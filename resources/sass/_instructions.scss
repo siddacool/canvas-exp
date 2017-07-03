@@ -1,0 +1,13 @@
+.instructions-btn {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: 14px;
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  .icon {
+    fill: #fff;
+  }
+}

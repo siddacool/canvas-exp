@@ -2,6 +2,8 @@ import * as THREE from 'three';
 import TooltipInfo from '../Dom/TooltipInfo';
 import modelView from './model-view';
 import DialogExpanded from '../Dom/DialogExpanded';
+import Instructions from '../Dom/Instructions';
+import getOffset from '../custom-methods/get-offset';
 
 const initializeDomEvents = require('threex-domevents');
 
@@ -9,6 +11,8 @@ const THREEx = {};
 initializeDomEvents(THREE, THREEx);
 
 function webGLInit() {
+  const tooltipInfo = new TooltipInfo();
+  const dialogExpanded = new DialogExpanded();
   const myCanvas = document.getElementById('my-canvas');
   const cameraDistance = () => {
     let send = '';
@@ -89,17 +93,19 @@ function webGLInit() {
       y: event.y,
     };
   };
-  const showTooltip = (object) => {
-    const tooltipInfo = new TooltipInfo(object.userData.name);
-    const dialogExpanded = new DialogExpanded(object.userData.description);
-    domEvents.addEventListener(object, 'mouseover', () => {
-      tooltipInfo.show();
-    }, false);
+  const shrinkCanvas = () => {
+    const isDialogVisible = document.getElementById('dialog-holder').classList.contains('show');
 
+    if (!isDialogVisible) {
+      resizeCanvas(900, window.innerHeight);
+      camera.position.z = 10;
+    }
+  };
+  const showTooltip = (object) => {
     domEvents.addEventListener(object, 'mousemove', () => {
       const mousePos = showCoords(event);
       if (!isDragging) {
-        tooltipInfo.follow(mousePos.x, mousePos.y);
+        tooltipInfo.show(object.userData.name, mousePos.x, mousePos.y);
         object.material.color.setHex(0xffffff);
       } else {
         object.material.color.setHex(object.userData.color);
@@ -112,13 +118,9 @@ function webGLInit() {
     }, false);
 
     domEvents.addEventListener(object, 'dblclick', () => {
-      const isDialogVisible = document.getElementById('dialog-holder').classList.contains('show');
       if (!isDragging) {
-        if (!isDialogVisible) {
-          resizeCanvas(900, window.innerHeight);
-          camera.position.z = 10;
-        }
-        dialogExpanded.show();
+        shrinkCanvas();
+        dialogExpanded.show(object.userData.description);
       }
     }, false);
   };
@@ -136,7 +138,6 @@ function webGLInit() {
   myCanvas.addEventListener('mousewheel', zoom);
 
   document.getElementById('dialog-expanded-close').addEventListener('click', () => {
-    const dialogExpanded = new DialogExpanded();
     dialogExpanded.close();
     resizeCanvas(window.innerWidth, window.innerHeight);
     camera.position.z = 0;
@@ -156,6 +157,25 @@ function webGLInit() {
       }
     }
   };
+
+  const instructionsBtn = document.getElementById('instructions');
+
+  instructionsBtn.addEventListener('mouseover', () => {
+    const thisPos = getOffset(instructionsBtn);
+
+    tooltipInfo.show('About', thisPos.left - 20, thisPos.top + 80);
+  });
+
+  instructionsBtn.addEventListener('mouseout', () => {
+    tooltipInfo.clear();
+  });
+
+  instructionsBtn.addEventListener('click', () => {
+    const instructions = new Instructions();
+
+    shrinkCanvas();
+    dialogExpanded.show(instructions.render());
+  });
 
   // render all
   function render() {
