@@ -5,10 +5,8 @@ export default class {
     this.parentDom = 'dialog-holder';
   }
 
-  update() {
-    return `
-      ${this.msg}
-    `;
+  update(updateMsg = this.msg) {
+    return updateMsg;
   }
 
   render() {
@@ -28,10 +26,10 @@ export default class {
     `;
   }
 
-  show() {
+  show(updateMsg) {
     const dialogHolder = document.getElementById(this.parentDom);
     const msg = document.getElementById(this.selfGet).querySelector('.msg');
-    msg.innerHTML = this.update();
+    msg.innerHTML = this.update(updateMsg);
     dialogHolder.classList.add('show');
   }
 
