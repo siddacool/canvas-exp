@@ -97,7 +97,9 @@ function webGLInit() {
     const isDialogVisible = document.getElementById('dialog-holder').classList.contains('show');
 
     if (!isDialogVisible) {
-      resizeCanvas(900, window.innerHeight);
+      if (window.innerWidth >= 1280) {
+        resizeCanvas(900, window.innerHeight);
+      }
       camera.position.z = 10;
     }
   };

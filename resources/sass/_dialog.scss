@@ -15,7 +15,7 @@ $dialog-expanded-bg-color: #fff;
       display: block;
     }
 
-    @include desktop {
+    @include desktopXL {
       background-color: transparent;
       height: initial;
       padding: 0;
@@ -36,7 +36,7 @@ $dialog-expanded-bg-color: #fff;
     max-width: 900px;
     overflow: auto;
 
-    @include desktop {
+    @include desktopXL {
       height: 100vh;
       left: 0;
       margin-left: 900px;
@@ -58,6 +58,37 @@ $dialog-expanded-bg-color: #fff;
 
       @include desktop {
         text-align: initial;
+      }
+    }
+
+    &-container {
+      padding-bottom: 1.5rem;
+
+      h1 {
+        padding-bottom: .6rem;
+      }
+
+      h2 {
+        padding-bottom: .3rem;
+      }
+
+      .callout {
+        margin: .8rem 0;
+      }
+    }
+
+    &-list {
+      margin-bottom: 1.2rem;
+
+      li {
+        align-items: center;
+        display: flex;
+        margin: .5rem 0;
+      }
+
+      .icon {
+        height: 1.3rem;
+        width: 1.3rem;
       }
     }
   }
