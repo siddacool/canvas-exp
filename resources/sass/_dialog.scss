@@ -91,5 +91,22 @@ $dialog-expanded-bg-color: #fff;
         width: 1.3rem;
       }
     }
+
+    &-full-image {
+      border-radius: 3px;
+      max-width: 600px;
+      padding: .5rem;
+
+      @include desktopXL {
+        max-width: initial;
+      }
+
+      img {
+        border-radius: 3px;
+        display: block;
+        height: auto;
+        width: 100%;
+      }
+    }
   }
 }
