@@ -47,11 +47,6 @@ gulp.task('svg-make', () => {
       }],
     };
   }))
-  .pipe(cheerio({
-    run($) {
-      $('[fill]').removeAttr('fill');
-    },
-  }))
   .pipe(rename({ prefix: 'icon-' }))
   .pipe(svgstore())
   .pipe(gulp.dest('./views/partials/'));
