@@ -26,6 +26,11 @@ export default class {
     `;
   }
 
+  replace(updateMsg) {
+    const msg = document.getElementById(this.selfGet).querySelector('.msg');
+    msg.innerHTML = this.update(updateMsg);
+  }
+
   show(updateMsg) {
     const dialogHolder = document.getElementById(this.parentDom);
     const msg = document.getElementById(this.selfGet).querySelector('.msg');

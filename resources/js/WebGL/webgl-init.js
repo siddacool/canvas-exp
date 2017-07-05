@@ -14,6 +14,9 @@ initializeDomEvents(THREE, THREEx);
 function webGLInit() {
   const tooltipInfo = new TooltipInfo();
   const dialogExpanded = new DialogExpanded();
+  const isDialogVisible = () => {
+    return document.getElementById('dialog-holder').classList.contains('show');
+  };
   const myCanvas = document.getElementById('my-canvas');
   const cameraDistance = () => {
     let send = '';
@@ -85,9 +88,11 @@ function webGLInit() {
   const fliterMesh = (meshId) => {
     for (let i = 0; i < meshReg.length; i++) {
       if (meshReg[i].userData.id === meshId) {
-        meshReg[i].visible = true;
+        meshReg[i].userData.active = true;
+        meshReg[i].material.color.setHex(0xff0c0c);
       } else {
-        meshReg[i].visible = false;
+        meshReg[i].userData.active = false;
+        meshReg[i].material.color.setHex(meshReg[i].userData.color);
       }
     }
   };
@@ -95,6 +100,7 @@ function webGLInit() {
   const showAllMesh = () => {
     for (let i = 0; i < meshReg.length; i++) {
       meshReg[i].visible = true;
+      meshReg[i].userData.active = false;
     }
   };
 
@@ -120,9 +126,7 @@ function webGLInit() {
     };
   };
   const shrinkCanvas = () => {
-    const isDialogVisible = document.getElementById('dialog-holder').classList.contains('show');
-
-    if (!isDialogVisible) {
+    if (!isDialogVisible()) {
       if (window.innerWidth >= 1280) {
         resizeCanvas(window.innerWidth / 2, window.innerHeight);
       }
@@ -133,24 +137,30 @@ function webGLInit() {
       const mousePos = showCoords(event);
       if (!isDragging) {
         tooltipInfo.show(object.userData.name, mousePos.x, mousePos.y);
-        object.material.color.setHex(0xffffff);
-      } else {
+        if (!object.userData.active) {
+          object.material.color.setHex(0xffffff);
+        }
+      } else if (!object.userData.active) {
         object.material.color.setHex(object.userData.color);
       }
     }, false);
 
     domEvents.addEventListener(object, 'mouseout', () => {
       tooltipInfo.clear();
-      object.material.color.setHex(object.userData.color);
+      if (!object.userData.active) {
+        object.material.color.setHex(object.userData.color);
+      }
     }, false);
 
     domEvents.addEventListener(object, 'dblclick', () => {
-      const easeZ = new EaseZ(camera, camera.position.z, -1, 4);
+      const easeZ = new EaseZ(camera, camera.position.z, 5, 6);
       if (!isDragging) {
         shrinkCanvas();
-        dialogExpanded.show(object.userData.description);
         fliterMesh(object.userData.id);
-        easeZ.animate();
+        if (!isDialogVisible()) {
+          easeZ.animate();
+        }
+        dialogExpanded.show(object.userData.description);
       }
     }, false);
   };
@@ -176,8 +186,7 @@ function webGLInit() {
   });
 
   addEventListener('resize', () => {
-    const isDialogVisible = document.getElementById('dialog-holder').classList.contains('show');
-    if (isDialogVisible && window.innerWidth >= 1280) {
+    if (isDialogVisible() && window.innerWidth >= 1280) {
       resizeCanvas(window.innerWidth / 2, window.innerHeight);
     } else {
       resizeCanvas(window.innerWidth, window.innerHeight);
