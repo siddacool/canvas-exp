@@ -100,7 +100,18 @@ function webGLInit() {
       if (window.innerWidth >= 1280) {
         resizeCanvas(window.innerWidth / 2, window.innerHeight);
       }
-      camera.position.z = 10;
+
+      (function zoomOut() {
+        let pos = 0;
+        function fadeAnimate() {
+          pos += 1;
+          camera.position.z = (pos / 10) * 4;
+          if (camera.position.z <= 10) {
+            requestAnimationFrame(fadeAnimate);
+          }
+        }
+        requestAnimationFrame(fadeAnimate);
+      }());
     }
   };
   const showTooltip = (object) => {
@@ -142,7 +153,17 @@ function webGLInit() {
   document.getElementById('dialog-expanded-close').addEventListener('click', () => {
     dialogExpanded.close();
     resizeCanvas(window.innerWidth, window.innerHeight);
-    camera.position.z = 0;
+    (function zoomIn() {
+      let pos = 10;
+      function fadeAnimate() {
+        pos -= 1;
+        camera.position.z = (pos / 10) * 8;
+        if (camera.position.z > 0) {
+          requestAnimationFrame(fadeAnimate);
+        }
+      }
+      requestAnimationFrame(fadeAnimate);
+    }());
   });
 
   addEventListener('resize', () => {
