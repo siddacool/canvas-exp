@@ -4,6 +4,7 @@ import modelView from './model-view';
 import DialogExpanded from '../Dom/DialogExpanded';
 import Instructions from '../Dom/Instructions';
 import getOffset from '../custom-methods/get-offset';
+import EaseZ from './animate/EaseZ';
 
 const initializeDomEvents = require('threex-domevents');
 
@@ -71,6 +72,31 @@ function webGLInit() {
   sphere.material.side = THREE.BackSide;
 
   pivot.add(sphere);
+  modelView(pivot, meshReg);
+
+  const giveMesh = (meshId) => {
+    for (let i = 0; i < meshReg.length; i++) {
+      if (meshReg[i].userData.id === meshId) {
+        return meshReg[i];
+      }
+    }
+  };
+
+  const fliterMesh = (meshId) => {
+    for (let i = 0; i < meshReg.length; i++) {
+      if (meshReg[i].userData.id === meshId) {
+        meshReg[i].visible = true;
+      } else {
+        meshReg[i].visible = false;
+      }
+    }
+  };
+
+  const showAllMesh = () => {
+    for (let i = 0; i < meshReg.length; i++) {
+      meshReg[i].visible = true;
+    }
+  };
 
   const zoom = (event) => {
     if (event.wheelDelta / 120 > 0) {
@@ -95,23 +121,14 @@ function webGLInit() {
   };
   const shrinkCanvas = () => {
     const isDialogVisible = document.getElementById('dialog-holder').classList.contains('show');
+    const easeZ = new EaseZ(camera, 0, -2, 4);
 
     if (!isDialogVisible) {
       if (window.innerWidth >= 1280) {
         resizeCanvas(window.innerWidth / 2, window.innerHeight);
       }
 
-      (function zoomOut() {
-        let pos = 0;
-        function fadeAnimate() {
-          pos += 1;
-          camera.position.z = (pos / 10) * 4;
-          if (camera.position.z <= 10) {
-            requestAnimationFrame(fadeAnimate);
-          }
-        }
-        requestAnimationFrame(fadeAnimate);
-      }());
+      easeZ.zoomIn();
     }
   };
   const showTooltip = (object) => {
@@ -134,6 +151,7 @@ function webGLInit() {
       if (!isDragging) {
         shrinkCanvas();
         dialogExpanded.show(object.userData.description);
+        fliterMesh(object.userData.id);
       }
     }, false);
   };
@@ -151,19 +169,13 @@ function webGLInit() {
   myCanvas.addEventListener('mousewheel', zoom);
 
   document.getElementById('dialog-expanded-close').addEventListener('click', () => {
+    const easeZ = new EaseZ(camera, camera.position.z, 0, 4);
     dialogExpanded.close();
     resizeCanvas(window.innerWidth, window.innerHeight);
-    (function zoomIn() {
-      let pos = 10;
-      function fadeAnimate() {
-        pos -= 1;
-        camera.position.z = (pos / 10) * 8;
-        if (camera.position.z > 0) {
-          requestAnimationFrame(fadeAnimate);
-        }
-      }
-      requestAnimationFrame(fadeAnimate);
-    }());
+    showAllMesh();
+    //camera.position.z = 10;
+    
+    easeZ.zoomOut();
   });
 
   addEventListener('resize', () => {
@@ -175,20 +187,9 @@ function webGLInit() {
     }
   });
 
-  // Call Models
-  modelView(pivot, meshReg);
-
   meshReg.forEach((mesh) => {
     showTooltip(mesh);
   });
-
-  const giveMesh = (meshId) => {
-    for (let i = 0; i < meshReg.length; i++) {
-      if (meshReg[i].userData.id === meshId) {
-        return meshReg[i];
-      }
-    }
-  };
 
   const instructionsBtn = document.getElementById('instructions');
 
