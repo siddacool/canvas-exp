@@ -2,7 +2,6 @@ const gulp = require('gulp');
 const ejs = require('gulp-ejs');
 const rename = require('gulp-rename');
 const path = require('path');
-const cheerio = require('gulp-cheerio');
 const svgstore = require('gulp-svgstore');
 const svgmin = require('gulp-svgmin');
 const imagemin = require('gulp-imagemin');
