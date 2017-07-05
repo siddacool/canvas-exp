@@ -35,4 +35,14 @@ export default class {
     }
     requestAnimationFrame(ease);
   }
+
+  animate() {
+    const pos = this.position;
+    const tar = this.target;
+    if (pos > tar) {
+      this.zoomIn();
+    } else {
+      this.zoomOut();
+    }
+  }
 }

@@ -121,14 +121,11 @@ function webGLInit() {
   };
   const shrinkCanvas = () => {
     const isDialogVisible = document.getElementById('dialog-holder').classList.contains('show');
-    const easeZ = new EaseZ(camera, 0, -2, 4);
 
     if (!isDialogVisible) {
       if (window.innerWidth >= 1280) {
         resizeCanvas(window.innerWidth / 2, window.innerHeight);
       }
-
-      easeZ.zoomIn();
     }
   };
   const showTooltip = (object) => {
@@ -148,10 +145,12 @@ function webGLInit() {
     }, false);
 
     domEvents.addEventListener(object, 'dblclick', () => {
+      const easeZ = new EaseZ(camera, camera.position.z, -1, 4);
       if (!isDragging) {
         shrinkCanvas();
         dialogExpanded.show(object.userData.description);
         fliterMesh(object.userData.id);
+        easeZ.animate();
       }
     }, false);
   };
@@ -173,9 +172,7 @@ function webGLInit() {
     dialogExpanded.close();
     resizeCanvas(window.innerWidth, window.innerHeight);
     showAllMesh();
-    //camera.position.z = 10;
-    
-    easeZ.zoomOut();
+    easeZ.animate();
   });
 
   addEventListener('resize', () => {
@@ -205,8 +202,10 @@ function webGLInit() {
 
   instructionsBtn.addEventListener('click', () => {
     const instructions = new Instructions();
+    const easeZ = new EaseZ(camera, camera.position.z, 10, 4);
 
     shrinkCanvas();
+    easeZ.animate();
     dialogExpanded.show(instructions.render());
   });
 
