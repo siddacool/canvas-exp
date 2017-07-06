@@ -3,7 +3,6 @@ import TooltipInfo from '../Dom/TooltipInfo';
 import modelView from './model-view';
 import DialogExpanded from '../Dom/DialogExpanded';
 import Instructions from '../Dom/Instructions';
-import getOffset from '../custom-methods/get-offset';
 import EaseZ from './animate/EaseZ';
 
 const initializeDomEvents = require('threex-domevents');
@@ -198,22 +197,9 @@ function webGLInit() {
     showTooltip(mesh);
   });
 
-  const instructionsBtn = document.getElementById('instructions');
-
-  instructionsBtn.addEventListener('mouseover', () => {
-    const thisPos = getOffset(instructionsBtn);
-
-    tooltipInfo.show('About', thisPos.left - 20, thisPos.top + 80);
-  });
-
-  instructionsBtn.addEventListener('mouseout', () => {
-    tooltipInfo.clear();
-  });
-
-  instructionsBtn.addEventListener('click', () => {
+  document.getElementById('instructions').addEventListener('click', () => {
     const instructions = new Instructions();
     const easeZ = new EaseZ(camera, camera.position.z, 10, 4);
-
     shrinkCanvas();
     easeZ.animate();
     dialogExpanded.show(instructions.render());

@@ -10,7 +10,7 @@ wrapper.innerHTML = `
   <canvas id="my-canvas">
   </canvas>
   <div id="my-div">
-    <a id="instructions" class="instructions-btn wee-button">
+    <a id="instructions" class="instructions-btn wee-button" title="About">
      <svg role="img" class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-settings"></use></svg>
     </a>
     <div id="tooltip-holder">
