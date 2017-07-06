@@ -101,6 +101,7 @@ function webGLInit() {
     for (let i = 0; i < meshReg.length; i++) {
       meshReg[i].visible = true;
       meshReg[i].userData.active = false;
+      meshReg[i].material.color.setHex(meshReg[i].userData.color);
     }
   };
 
