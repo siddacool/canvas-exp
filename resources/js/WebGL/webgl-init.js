@@ -22,7 +22,7 @@ function webGLInit() {
     if (window.innerWidth < 600) {
       send = 70;
     } else {
-      send = 40;
+      send = 50;
     }
     return send;
   };
@@ -30,7 +30,7 @@ function webGLInit() {
     canvas: myCanvas,
     antialias: true,
   });
-  renderer.setClearColor(0x00ff00);
+  renderer.setClearColor(0x000000);
   renderer.setSize(window.innerWidth, window.innerHeight);
 
 
@@ -67,10 +67,10 @@ function webGLInit() {
   scene.add(pivot);
   pivot.position.z = -13;
 
-  const spheregeometry = new THREE.SphereBufferGeometry(20, 20, 20);
+  const spheregeometry = new THREE.SphereBufferGeometry(10, 20, 20);
   const spherematerial = new THREE.MeshPhongMaterial();
   const sphere = new THREE.Mesh(spheregeometry, spherematerial);
-  spherematerial.map = THREE.ImageUtils.loadTexture('./public/dist/images/pano.jpg');
+  spherematerial.map = THREE.ImageUtils.loadTexture('./public/dist/images/starsinthesky.jpg');
   sphere.material.side = THREE.BackSide;
 
   pivot.add(sphere);
@@ -153,7 +153,7 @@ function webGLInit() {
     }, false);
 
     domEvents.addEventListener(object, 'dblclick', () => {
-      const easeZ = new EaseZ(camera, camera.position.z, 5, 6);
+      const easeZ = new EaseZ(camera, camera.position.z, 3, 6);
       if (!isDragging) {
         shrinkCanvas();
         fliterMesh(object.userData.id);
