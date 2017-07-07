@@ -6,7 +6,7 @@ const THREEx = {};
 initializeDomEvents(THREE, THREEx);
 
 export default class {
-  constructor(id, name, model, pivot, meshReg) {
+  constructor(id, name, model, pivot, meshReg, cubeCamera) {
     this.id = id;
     this.name = name;
     this.model = model;
@@ -18,15 +18,18 @@ export default class {
     this.meshReg = meshReg;
     this.center = false;
     this.description = 'No Description';
+    this.cubeCamera = cubeCamera;
   }
 
   render() {
     const loader = new THREE.JSONLoader();
     const model = loader.parse(this.model);
+    const material = new THREE.MeshStandardMaterial({ color: this.color });
     const mesh = new THREE.Mesh(
       model.geometry,
-      new THREE.MeshStandardMaterial({ color: this.color },
-    ));
+      material,
+    );
+    material.envMap = this.cubeCamera.renderTarget.texture;
     if (this.center === true) {
       const box = new THREE.Box3().setFromObject(mesh);
       box.getCenter(mesh.position);
