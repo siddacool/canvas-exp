@@ -30,7 +30,7 @@ function webGLInit() {
     canvas: myCanvas,
     antialias: true,
   });
-  renderer.setClearColor(0x000000);
+  renderer.setClearColor(0x011147);
   renderer.setSize(window.innerWidth, window.innerHeight);
 
 
@@ -67,14 +67,21 @@ function webGLInit() {
   scene.add(pivot);
   pivot.position.z = -13;
 
+  const cubeCamera = new THREE.CubeCamera(10, 1000, 1024);
+  scene.add(cubeCamera);
+  cubeCamera.updateCubeMap(renderer, scene);
+
   const spheregeometry = new THREE.SphereBufferGeometry(10, 20, 20);
   const spherematerial = new THREE.MeshPhongMaterial();
   const sphere = new THREE.Mesh(spheregeometry, spherematerial);
   spherematerial.map = THREE.ImageUtils.loadTexture('./public/dist/images/starsinthesky.jpg');
   sphere.material.side = THREE.BackSide;
+  cubeCamera.updateCubeMap(renderer, scene);
 
   pivot.add(sphere);
-  modelView(pivot, meshReg);
+  cubeCamera.updateCubeMap(renderer, scene);
+  modelView(pivot, meshReg, cubeCamera);
+  cubeCamera.updateCubeMap(renderer, scene);
 
   const giveMesh = (meshId) => {
     for (let i = 0; i < meshReg.length; i++) {
@@ -105,13 +112,16 @@ function webGLInit() {
   };
 
   const zoom = (event) => {
+    cubeCamera.updateCubeMap(renderer, scene);
     if (event.wheelDelta / 120 > 0) {
       camera.position.z -= 0.3;
     } else {
       camera.position.z += 0.3;
     }
   };
+
   const drag = (event) => {
+    cubeCamera.updateCubeMap(renderer, scene);
     if (isDragging) {
       if (typeof (mouse.x) !== 'undefined') {
         const deltaX = mouse.x - event.x;
@@ -126,6 +136,7 @@ function webGLInit() {
     };
   };
   const shrinkCanvas = () => {
+    cubeCamera.updateCubeMap(renderer, scene);
     if (!isDialogVisible()) {
       if (window.innerWidth >= 1280) {
         resizeCanvas(window.innerWidth / 2, window.innerHeight);
